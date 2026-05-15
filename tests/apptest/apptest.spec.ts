@@ -20,5 +20,5 @@ test('open Tracsens website', async () => {
   await expect(page).toHaveTitle(/Tracsens/);
 
   //await browser.close();
-   await page.pause();
+   //await page.pause();
 });

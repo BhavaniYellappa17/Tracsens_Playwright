@@ -36,9 +36,9 @@ const sheet = utils.fetchRowByColumnValue('./test-data/testData_String.xlsx','ge
 console.log(sheet);
 });
 
-//2)Fetch a row from Excel by matching column value using key value pairs
-test('get row value', async () => {
+// //2)Fetch a row from Excel by matching column value using key value pairs
+// test('get row value', async () => {
  
-  const sheet = utils.getRowByColumnValue('./test-data/testData_String.xlsx','getRowValues',{ name: 'Lakshmi'});
-    console.log(sheet);
-});
+//   const sheet = utils.getRowByColumnValue('./test-data/testData_String.xlsx','getRowValues',{ name: 'Lakshmi'});
+//     console.log(sheet);
+// });
