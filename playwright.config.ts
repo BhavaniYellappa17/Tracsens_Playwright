@@ -80,16 +80,16 @@ export default defineConfig({
  
   /* Configure projects for major browsers */
   projects: [
-  
-  //   name: 'chromium',
-  //   use: {
-  //     browserName: 'chromium',
-  //     viewport: null,
-  //     launchOptions: {
-  //       args: ['--start-maximized'],
-  //     },
-  //   },
-  // },
+  {
+    name: 'chromium',
+    use: {
+      browserName: 'chromium',
+      viewport: null,
+      launchOptions: {
+        args: ['--start-maximized'],
+      },
+    },
+  },
   {
     name: 'firefox',
     use: {
