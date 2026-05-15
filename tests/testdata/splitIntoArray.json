@@ -1,0 +1,10 @@
+[
+    {
+        "str":"India is my country",
+        "splitString":","
+    },
+    {
+        "str":"India is my country",
+        "splitString":" "
+    }
+]
