@@ -19,7 +19,7 @@ export class LogoutPage{
      */
 
     async logOut(){
-        await this.page.locator(this.logoutProfileIcon).waitFor({ state: 'visible', timeout: 15000});
+        await this.page.locator(this.logoutProfileIcon).waitFor();
         //const profile = this.page.locator(this.logoutProfileIcon);
         //await expect(profile).toBeVisible();  
         //await profile.click();
