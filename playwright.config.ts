@@ -65,7 +65,7 @@ export default defineConfig({
         //trace: 'on',
  
   /* Browser visible */
-  headless: true,
+  headless: false,
  
   /* Maximize browser */
   viewport: null,

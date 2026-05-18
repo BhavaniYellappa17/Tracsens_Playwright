@@ -23,7 +23,7 @@ export class LogoutPage{
         //const profile = this.page.locator(this.logoutProfileIcon);
         //await expect(profile).toBeVisible();  
         //await profile.click();
-        //await this.page.locator(this.logoutProfileIcon).click();
+        await this.page.locator(this.logoutProfileIcon).click();
         await this.page.locator(this.logoutButton).click();
     
     if(await this.page.locator(this.loginMessage).isVisible()){
