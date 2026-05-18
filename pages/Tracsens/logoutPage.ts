@@ -5,7 +5,7 @@ export class LogoutPage{
 
     }
     //*******************locators*********
-    logoutProfileIcon='//img[@alt="profile"]';
+    logoutProfileIcon='//img[@alt="profile"][1]';
     logoutButton='//button[text()="Log Out"]';
     loginMessage='//p[text()="Please enter your details to sign in."]';
 
