@@ -5,7 +5,7 @@ export class LogoutPage{
 
     }
     //*******************locators*********
-    logoutProfileIcon='//img[@alt="profile"][1]';
+    logoutProfileIcon='//img[@alt="profile"]';
     logoutButton='//button[text()="Log Out"]';
     loginMessage='//p[text()="Please enter your details to sign in."]';
 
@@ -19,6 +19,7 @@ export class LogoutPage{
      */
 
     async logOut(){
+        await this.page.locator(this.logoutProfileIcon).waitFor();
         await this.page.locator(this.logoutProfileIcon).click();
         await this.page.locator(this.logoutButton).click();
     
