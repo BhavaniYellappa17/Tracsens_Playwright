@@ -69,7 +69,7 @@ export class AdminPage{
          let found = false;
 
     // Wait for sidebar menu to be visible
-     await this.page.waitForSelector(this.homePageMenuItems);
+      await this.page.locator(this.homePageMenuItems).first().waitFor();
      const texts=await this.page.locator(this.homePageMenuItems).allTextContents();
      for (const item of texts) {
       if (item === menu) {

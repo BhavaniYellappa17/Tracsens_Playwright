@@ -15,6 +15,7 @@ test.beforeEach(async ({ page,browserName }) => {
     
    // Create objects
     loginPage = new LoginPage(page);
+    logout = new LogoutPage(page);
     if(browserName==='firefox'){
      globalThis.giSMALLWAIT = 2000;
      globalThis.giMEDIUMWAIT = 4000;
@@ -37,8 +38,7 @@ test.beforeEach(async ({ page,browserName }) => {
 
 //step:2
 // Logout from the Application
-test.afterEach(async ({ page }) => {
-    logout = new LogoutPage(page);
+test.afterEach(async ({ page }) => {  
     await logout.logOut();
     
     
