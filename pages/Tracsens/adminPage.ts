@@ -1,7 +1,7 @@
 import { Page,expect } from "@playwright/test";
 
 export class AdminPage{
-      //Name!: string;
+   
     constructor(public page:Page){
         
     }
@@ -42,6 +42,9 @@ export class AdminPage{
 
      //CustomerName table
      customerNameTableFirstRow = '//div[@class="customer-row-neat outlet-row-neat"][1]';
+
+     //deleteButton
+     deleteButton='(//button[@title="Deactivate (soft delete)"])[1]';
      
      
     /**
@@ -70,8 +73,9 @@ export class AdminPage{
 
     // Wait for sidebar menu to be visible
       await this.page.locator(this.homePageMenuItems).first().waitFor();
-     const texts=await this.page.locator(this.homePageMenuItems).allTextContents();
-     for (const item of texts) {
+     // await this.page.locator(this.homePageMenuItems).waitFor();
+      const texts=await this.page.locator(this.homePageMenuItems).allTextContents();
+      for (const item of texts) {
       if (item === menu) {
         try {
             await this.page.locator(`//span[text()='${item.trim()}']`).click();
@@ -160,7 +164,7 @@ if (!found) {
         await this.page.locator(this.email).fill(Email);
         await this.page.locator(this.phone).fill(phno);
         await this.page.locator(this.submitButton).click();
-         console.log("Customer created Successfully");
+        console.log("Customer created Successfully");
     } else {
         console.log("Customer already exists");
     }
@@ -168,7 +172,8 @@ if (!found) {
     //Verify CustomerName
      async verifyCustomerName(verifyName:string){
         await this.page.locator(this.searchBox).fill(verifyName);
-        if ((await this.page.locator(`text=${verifyName}`).isVisible())) {
+        //if ((await this.page.locator(`text=${verifyName}`).isVisible())) {
+          if ((await this.page.locator(`//span[text()="${verifyName}"]`).isVisible())) {
             console.log(`Customer "${verifyName}" is Present`);
 
          }
@@ -177,17 +182,51 @@ if (!found) {
          }
         }
 
-//Edit Customer
-        //   async editCustomerName(editCustomerName: string)
-        //   {
-        //       await this.page.locator(this.searchBox).fill(this.Name);
-        //       await this.page.waitForTimeout(6000);
-        //       await this.page.locator(this.editButton).click();
-        //       await this.page.locator(this.customerName).clear();
-        //       await this.page.locator(this.customerName).fill(editCustomerName);
-        //       await this.page.locator(this.submitButton).click();
-        //   }
+//Edit CustomerName
+          async editCustomerName(Name:string,editCustomerName: string)
+          {
+              await this.page.locator(this.searchBox).clear();
+              await this.page.locator(this.searchBox).fill(Name);
+              await this.page.locator(this.editButton).click();
+              await this.page.locator(this.customerName).clear();
+              await this.page.locator(this.customerName).fill(editCustomerName);
+              await this.page.locator(this.submitButton).click();
+              await this.page.reload();
+              console.log("Customer Updated Successfully");
+          }
+//Verify CustomerName
+     async verifyEditCustomer(verifyEditCustomerName:string){
+        await this.page.locator(this.searchBox).clear();
+        await this.page.locator(this.searchBox).fill(verifyEditCustomerName);
+        await this.page.locator(this.customerNameTableFirstRow).waitFor({ state: 'visible' });
+        //if ((await this.page.locator(`text=${verifyEditCustomerName}`).isVisible())) {
+        if ((await this.page.locator(`//span[text()="${verifyEditCustomerName}"]`).isVisible())) {
+            console.log(`CustomerName "${verifyEditCustomerName}" Edited Successfully`);
 
+         }
+         else{
+               console.log(`CustomerName "${verifyEditCustomerName}" is failed to edit`);
+         }
+        }
+
+    //Delete CustomerName
+    async deleteCustomerName(deleteCustomerName:string){
+        
+        await this.page.locator(this.searchBox).clear();
+        await this.page.locator(this.searchBox).fill(deleteCustomerName);
+        await this.page.locator(this.customerNameTableFirstRow).waitFor({ state: 'visible' });
+        await this.page.locator(this.deleteButton).waitFor({ state: 'visible' });
+        this.page.once('dialog', async dialog => {
+        console.log(`Dialog message: ${dialog.message()}`);
+        await dialog.accept(); 
+    });
+        await this.page.locator(this.deleteButton).click();
+        console.log("Customer Name Deleted Successfully");
+       
+    }
+
+
+     
 
 /**
  * Function Name: createCustomerFlow
@@ -221,5 +260,14 @@ if (!found) {
 
     //Edit CustomerName
     //await this.editCustomerName(editCustomerName);
+}
+async editCustomerT(Name:string,editCustomerName:string,verifyEditCustomerName:string){
+    await this.editCustomerName(Name,editCustomerName);
+    await this.verifyEditCustomer(verifyEditCustomerName);
+    
+
+}
+async deleteCustomerT(deleteCustomerName:string){
+    await this.deleteCustomerName(deleteCustomerName);
 }
 }

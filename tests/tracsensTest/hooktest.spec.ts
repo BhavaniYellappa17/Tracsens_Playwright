@@ -27,7 +27,7 @@ catch (error) {
 
 //step:4
 // Create multiple customers using test data from adminData.json
-test('create customer',async({page})=>{
+test('create and edit customer',async({page})=>{
     try{
          // Initialize Admin Page object
     adminPage=new AdminPage(page);
@@ -35,6 +35,8 @@ test('create customer',async({page})=>{
     for (const data of adminData) {
 
         await adminPage.createCustomerT(data.menu,data.subMenu,data.name,data.email,data.phone,data.verifyName);
+        await adminPage.editCustomerT(data.name,data.editCustomerName,data.verifyEditCustomerName);
+        await adminPage.deleteCustomerT(data.deleteCustomerName);
 
     }}
     catch (error) {
@@ -45,8 +47,6 @@ test('create customer',async({page})=>{
 
 });
 
-
-     
 
 
 

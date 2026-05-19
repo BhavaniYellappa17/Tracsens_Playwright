@@ -26,7 +26,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
 
   // Number of workers to run parallel
-  workers: 2,
+  workers: 1,
 
   /* Retry on CI only */
 
@@ -65,12 +65,16 @@ export default defineConfig({
         //trace: 'on',
  
   /* Browser visible */
-  headless: true,
+  headless: false,
  
   /* Maximize browser */
-  viewport: null,
+ viewport: { width: 1920, height: 1080 },
+
+
+  
  
   launchOptions: {
+    //slowMo: 3000,
     args: ['--start-maximized']
   },
  
@@ -84,7 +88,7 @@ export default defineConfig({
     name: 'chromium',
     use: {
       browserName: 'chromium',
-      viewport: null,
+      viewport: { width: 1920, height: 1080 },
       launchOptions: {
         args: ['--start-maximized'],
       },
@@ -94,7 +98,7 @@ export default defineConfig({
     name: 'firefox',
     use: {
       browserName: 'firefox',
-      viewport: null,
+      viewport: { width: 1920, height: 1080 },
       launchOptions: {
         args: ['--start-maximized'],
       },
