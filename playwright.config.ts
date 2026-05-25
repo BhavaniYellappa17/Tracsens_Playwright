@@ -68,7 +68,8 @@ export default defineConfig({
   headless: false,
  
   /* Maximize browser */
- viewport: { width: 1920, height: 1080 },
+ //viewport: { width: 1920, height: 1080 },
+ viewport:null,
 
 
   
@@ -88,22 +89,23 @@ export default defineConfig({
     name: 'chromium',
     use: {
       browserName: 'chromium',
-      viewport: { width: 1920, height: 1080 },
+      //viewport: { width: 1920, height: 1080 },
+      viewport:null,
       launchOptions: {
         args: ['--start-maximized'],
       },
     },
-  },
-  {
-    name: 'firefox',
-    use: {
-      browserName: 'firefox',
-      viewport: { width: 1920, height: 1080 },
-      launchOptions: {
-        args: ['--start-maximized'],
-      },
-    },
-  },
+  }
+  // {
+  //   name: 'firefox',
+  //   use: {
+  //     browserName: 'firefox',
+  //     viewport: { width: 1920, height: 1080 },
+  //     launchOptions: {
+  //       args: ['--start-maximized'],
+  //     },
+  //   },
+  // },
 
 ],
   

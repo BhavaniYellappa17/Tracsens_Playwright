@@ -2,13 +2,16 @@ import{test} from '@playwright/test';
 import '../../hooks/hooks';
 import { Home_Page } from '../../pages/Tracsens/homePage';
 import { AdminPage } from '../../pages/Tracsens/adminPage';
+import { OutletPage } from '../../pages/Tracsens/outletManagement';
 import adminData from '../testdata/adminData.json';
+import outletData from '../testdata/outletData.json';
 
 //step:3
 // Page Object Model instances declared at module level
 // so they are accessible across all test blocks
 let homepage:Home_Page;
 let adminPage:AdminPage;
+let outletPage:OutletPage;
 // Fetch and display dashboard statistics from the home page
 test('get dashboard statistics from home page', async ({page}) => {
     try{
@@ -46,6 +49,28 @@ test('create and edit customer',async({page})=>{
 }
 
 });
+
+//Step:5
+test.only('OutletManagement',async({page})=>{
+    try{
+         // Initialize Admin Page object
+    outletPage=new OutletPage(page);
+    // Loop through each record in adminData and create a customer
+    //for (const data of adminData) {
+
+        await outletPage.auditManagementT(outletData.menu,outletData.subMenu,outletData.searchOutletName,outletData.filter,outletData.targetAuditId,outletData.selectCategory);
+        
+
+    //}
+    }
+    catch (error) {
+    if (error instanceof Error) {
+        console.log(error.message);
+    }
+}
+
+});
+
 
 
 
