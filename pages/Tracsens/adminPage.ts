@@ -14,6 +14,7 @@ export class AdminPage{
 
     // Submenu items under Administration (Customers, Users)
      adminSubMenu='//span[@class="lan-4"]';
+     //adminSubMenu='//span[contains(@class,"lan-4") or contains(@class,"lan-5")]';
 
     // Button to open Create Customer form
      createCustomerButton='//button[text()="Create customer"]';
