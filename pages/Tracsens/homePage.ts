@@ -38,6 +38,7 @@ export class Home_Page{
         await this.page.waitForSelector(this.homePageMenuItems);
         // Fetch and print all menu items
         const lsmenuitems=await this .page.locator(this.homePageMenuItems).allTextContents();
+        console.log(lsmenuitems);
         // Fetch and print dashboard values
         const totaluser=await this.page.locator(this.user).textContent();
         console.log("Total uesrs",totaluser);
@@ -49,8 +50,9 @@ export class Home_Page{
         console.log("TotalOutlets",totaloutlets);
        
         // Fetch and print SKU values
-         (await this.page.waitForSelector(this.skus)).isVisible()
+         (await this.page.waitForSelector(this.skus)).isVisible();
          const totalskus=await this.page.locator(this.skus).allTextContents();
+         console.log(totalskus);
 
 }
 }

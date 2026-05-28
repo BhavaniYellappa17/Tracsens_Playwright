@@ -13,9 +13,7 @@ export class LogoutPage{
      * Function Name: logOut
      * Author: Lakshmi
      * Created Date: 2026-05-08
-     * Description: Performs logout action by clicking on profile icon
-     *              and logout button. Then verifies successful logout
-     *              by checking login page visibility message.
+     * Description: Performs logout action by clicking on profile iconand logout button. Then verifies successful logout by checking login page visibility message.
      */
 
     async logOut(){
@@ -25,8 +23,8 @@ export class LogoutPage{
         //await profile.click();
         await this.page.locator(this.logoutProfileIcon).click();
         await this.page.locator(this.logoutButton).click();
-    
-    if(await this.page.locator(this.loginMessage).isVisible()){
+
+      if(await this.page.locator(this.loginMessage).isVisible()){
         console.log("Successfully loggedout");
     }
     else{

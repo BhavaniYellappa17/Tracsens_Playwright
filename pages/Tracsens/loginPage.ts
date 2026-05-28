@@ -54,6 +54,7 @@ export class LoginPage{
             await this.page.locator(this.password).fill(password);
            
             await this.page.locator(this.signinButton).click();
+            
             await this.page.waitForTimeout(2000);
             if(await this.page.locator(this.homePageMessage).isVisible()){
             console.log("Login was successful");

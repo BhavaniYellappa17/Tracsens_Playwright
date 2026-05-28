@@ -1,11 +1,8 @@
 import { Page,expect } from "@playwright/test";
-//import { AdminPage } from "./adminPage";
-
 export class OutletPage{
-        //adminPage: AdminPage;  
+        
     constructor(public page:Page){
-        //this.page = page;
-        //this.adminPage = new AdminPage(this.page)
+        
     }
     // Sidebar main menu items (Home, Administration,outletmanagment,product managemnet )
      homePageMenuItems='//a[contains(@class,"sidebar-link")]//span';
@@ -129,12 +126,11 @@ export class OutletPage{
      * Navigate     → Click outlet name to go to outlet details
      */
     async outletMenuAndSubMenu(menu:string,subMenu:string,searchOutletName:string,filter:string):Promise<string[]>{
-        //await this.adminPage.adminMenuAndSubMenus(menu, subMenu);
+        
          let found = false;
-
-    // Wait for sidebar menu to be visible
+     // Wait for sidebar menu to be visible
       await this.page.locator(this.homePageMenuItems).first().waitFor();
-     // Get all menu item texts
+      // Get all menu item texts
       const texts=await this.page.locator(this.homePageMenuItems).allTextContents();
       console.log(texts);
       // Loop through menu items and click matching menu
