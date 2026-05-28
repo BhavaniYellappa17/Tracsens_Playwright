@@ -1,12 +1,13 @@
 import { Page,expect } from "@playwright/test";
+import { OutletPage } from "./outletManagement";
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
 export class AuditPage{
-   
+   outletPage:OutletPage;
     constructor(public page:Page){
-        
+        this.outletPage = new OutletPage(page);
     }
      //****************** Locators ***************/
     //AuditsLink
@@ -88,7 +89,8 @@ export class AuditPage{
      * Export PDF    → Download audit report as PDF
      * Close Modal   → Close the audit modal
      */
-async auditsPage(targetAuditId: string, selectCategory: string) {
+async auditsPage(menu:string,subMenu:string,searchOutletName:string,filter:string,targetAuditId: string, selectCategory: string) {
+  await this.outletPage.outletMenuAndSubMenu(menu,subMenu,searchOutletName,filter);
 //Navigate to the Audits section
   await this.page.locator(this.audits).click();
 //Loop through all pages to find the target Audit ID
@@ -104,6 +106,7 @@ async auditsPage(targetAuditId: string, selectCategory: string) {
       if (text?.includes(targetAuditId)) {
         await row.scrollIntoViewIfNeeded();
         await row.locator(this.viewButton).click();
+        console.log("\n========== AUDIT INFORMATION ==========");
         console.log(`Clicked View for: ${targetAuditId}`);
         await this.page.waitForTimeout(1000);
         
@@ -146,30 +149,39 @@ async auditsPage(targetAuditId: string, selectCategory: string) {
             await this.page.locator(this.skus).click();
             const getSkus=await this.page.locator(this.allSKUs).allTextContents();
             console.log(`SKUs:`,getSkus);
-            await this.page.locator(this.exportPdf).click();
-            await this.page.waitForTimeout(3000);
-        }
-        // Search file with auditId in Downloads
+            // Step 1: Delete old files
             const downloadsFolder = path.join(os.homedir(), 'Downloads');
-            const files = fs.readdirSync(downloadsFolder);
-            const auditPdf = files.find((file: string)  => file.includes(targetAuditId) && file.endsWith('.pdf'));
-            if (auditPdf) 
-            {
-              const pdfPath = path.join(downloadsFolder, auditPdf);
-              const fileStats = fs.statSync(pdfPath);
-              const downloadedTime = fileStats.mtime;
+            fs.readdirSync(downloadsFolder).filter((file: string) => file.includes(targetAuditId) && file.endsWith('.pdf')).forEach((file: string) => {
+            fs.unlinkSync(path.join(downloadsFolder, file));
+            console.log("\n==========  EXPORT AUDIT PDF==========");
+            console.log(`Old file deleted: ${file}`);
+            });
+        
+            // Step 2: Click Export PDF and wait for download
+            const [download] = await Promise.all([
+            this.page.waitForEvent('download'),
+            this.page.locator(this.exportPdf).click()
+            ]);
+        
+            // Step 3: Save file
+            const fileName = await download.suggestedFilename();
+            const savePath = path.join(downloadsFolder, fileName);
+            console.log(savePath);
+            await download.saveAs(savePath);
             
-              const hours = String(downloadedTime.getHours()).padStart(2, '0');
-              const minutes = String(downloadedTime.getMinutes()).padStart(2, '0');
-              const seconds = String(downloadedTime.getSeconds()).padStart(2, '0');
-              console.log(`PDF found: ${auditPdf}:${hours}:${minutes}:${seconds}`);
-            } 
-            else 
-            {
-              console.log(`PDF not found for: ${targetAuditId}`);
-            }
+        
+            // Step 4: Verify file
+            if (fileName.includes(targetAuditId) && fileName.endsWith('.pdf')) {
+                     const downloadedTime = fs.statSync(path.join(downloadsFolder, fileName)).mtime;
+                     const date = `${String(downloadedTime.getDate()).padStart(2,'0')}-${String(downloadedTime.getMonth()+1).padStart(2,'0')}-${downloadedTime.getFullYear()}`;
+                     const time = `${String(downloadedTime.getHours()).padStart(2,'0')}:${String(downloadedTime.getMinutes()).padStart(2,'0')}:${String(downloadedTime.getSeconds()).padStart(2,'0')}`;
+                     console.log(`PDF found: ${fileName}-${date}:${time}`);
+                } 
+            else {
+                       console.log(`PDF not found for: ${targetAuditId}`);
+                    }
                     
-                    
+        }
             await this.page.locator(this.closeButton).click();
             return;
 
@@ -178,6 +190,7 @@ async auditsPage(targetAuditId: string, selectCategory: string) {
     }
      //If Audit ID not found on current page, navigate to next page
     await this.page.locator(this.nextButton).click();
+    
     
   }
 
