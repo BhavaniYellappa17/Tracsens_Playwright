@@ -192,6 +192,7 @@ if (!found) {
               await this.page.locator(this.customerName).clear();
               await this.page.locator(this.customerName).fill(editCustomerName);
               await this.page.locator(this.submitButton).click();
+              await this.page.waitForTimeout(1000);
               await this.page.reload();
               console.log("Customer Updated Successfully");
           }
